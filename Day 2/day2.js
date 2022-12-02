@@ -1,6 +1,5 @@
 const path = require('path');
 const fs = require('fs');
-const { getSystemErrorName } = require('util');
 
 const input = fs.readFileSync(path.join(__dirname, 'day2.txt'), 'utf8')
                 .toString()
