@@ -1,60 +1,63 @@
 const path = require('path');
 const fs = require('fs');
+const { getSystemErrorName } = require('util');
 
 const input = fs.readFileSync(path.join(__dirname, 'day2.txt'), 'utf8')
                 .toString()
                 .trim()
-	            .split('\n')
-	            .map((line) => {
-                let [a, b] = line.split(' ');
-                x = a.charAt(0);
-                y = b.charAt(0);
-                    return {
-                        x,
-                        y}
+	            .split('\r\n')
+	            .map((line) => 
+                {
+                    let [x, y] = line.split(' ');
+                    return { x, y };
 		        });
 
-let score = 0;
-
-// x - rock
-// y - paper
-// z - scissors
-
-for (let i = 0; i < input.length; i++)
+function GetScore(a, b)
 {
-    let a = input[i].x;
-    let b = input[i].y;
+    // X - rock
+    // Y - paper
+    // Z - scissors
 
     // a - rock
     if (a == 'A')
     {
         if (b == 'X')
-            score += 1 + 3;
+            return 1 + 3;
         else if (b == 'Y')
-            score += 2 + 6;
+            return 2 + 6;
         else if (b == 'Z')
-            score += 3 + 0;
+            return 3 + 0;
     }
+
     // a - paper
     else if (a == 'B')
     {
         if (b == 'X')
-            score += 1 + 0;
+            return 1 + 0;
         else if (b == 'Y')
-            score += 2 + 3;
+            return 2 + 3;
         else if (b == 'Z')
-            score += 3 + 6;
+            return 3 + 6;
     }
+
     // a - scissors
     else if (a == 'C')
     {
         if (b == 'X')
-            score += 1 + 6;
+            return 1 + 6;
         else if (b == 'Y')
-            score += 2 + 0;
+            return 2 + 0;
         else if (b == 'Z')
-            score += 3 + 3;
+            return 3 + 3;
     }
+}
+
+// Part 1
+let score = 0;
+
+for (let i = 0; i < input.length; i++)
+{
+    score += GetScore(input[i].x, input[i].y);
 }
 
 console.log(score);
@@ -96,36 +99,7 @@ for (let i = 0; i < input.length; i++)
             b = 'X';
     }
 
-    // a - rock
-    if (a == 'A')
-    {
-        if (b == 'X')
-            score += 1 + 3;
-        else if (b == 'Y')
-            score += 2 + 6;
-        else if (b == 'Z')
-            score += 3 + 0;
-    }
-    // a - paper
-    else if (a == 'B')
-    {
-        if (b == 'X')
-            score += 1 + 0;
-        else if (b == 'Y')
-            score += 2 + 3;
-        else if (b == 'Z')
-            score += 3 + 6;
-    }
-    // a - scissors
-    else if (a == 'C')
-    {
-        if (b == 'X')
-            score += 1 + 6;
-        else if (b == 'Y')
-            score += 2 + 0;
-        else if (b == 'Z')
-            score += 3 + 3;
-    }
+    score += GetScore(a, b);
 }
 
 console.log(score);
