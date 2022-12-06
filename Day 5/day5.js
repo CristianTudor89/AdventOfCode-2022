@@ -4,7 +4,7 @@ const fs = require('fs');
 const input = fs.readFileSync(path.join(__dirname, 'day5.txt'), 'utf8')
                 .toString()
                 .trim()
-	            .split('\r\n')
+	        .split('\r\n')
                 .map((line) => 
                 {
                     let [_1, quantity, _2, from, _3, to] = line.split(' ').map(Number);
@@ -20,15 +20,15 @@ const input = fs.readFileSync(path.join(__dirname, 'day5.txt'), 'utf8')
 
 stacks = []
 stacks.push([])
-stacks.push(['W', 'L', 'S'])
-stacks.push(['Q', 'N', 'T', 'J'])
-stacks.push(['J', 'F', 'H', 'C', 'S'])
-stacks.push(['B', 'G', 'N', 'W', 'M', 'R', 'T'])
-stacks.push(['B', 'Q', 'H', 'D', 'S', 'L', 'R', 'T'])
-stacks.push(['L', 'R', 'H', 'F', 'V', 'B', 'J', 'M'])
-stacks.push(['M', 'J', 'N', 'R', 'W', 'D'])
-stacks.push(['J', 'D', 'N', 'H', 'F', 'T', 'Z', 'B'])
-stacks.push(['T', 'F', 'B', 'N', 'Q', 'L', 'H'])
+stacks.push(Array.from('WLS'))
+stacks.push(Array.from('QNTJ'))
+stacks.push(Array.from('JFHCS'))
+stacks.push(Array.from('BGNWMRT'))
+stacks.push(Array.from('BQHDSLRT'))
+stacks.push(Array.from('LRHFVBJM'))
+stacks.push(Array.from('MJNRWD'))
+stacks.push(Array.from('JDNHFTZB'))
+stacks.push(Array.from('TFBNQLH'))
 
 function Part1()
 {
@@ -45,8 +45,11 @@ function Part1()
         }
     }
 
+    vals = []
     for (let i = 1; i < stacks.length; i++)
-    console.log(stacks[i][0]);
+        vals.push(stacks[i][0]);
+
+    console.log(vals.join(''));
 }
 
 function Part2()
@@ -64,8 +67,11 @@ function Part2()
         }
     }
 
+    vals = []
     for (let i = 1; i < stacks.length; i++)
-        console.log(stacks[i][0]);
+        vals.push(stacks[i][0]);
+
+    console.log(vals.join(''));
 }
 
 // Part1();
