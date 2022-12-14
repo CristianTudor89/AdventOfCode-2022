@@ -3,14 +3,15 @@ const fs = require('fs');
 
 const input = fs.readFileSync(path.join(__dirname, 'day14.txt'), 'utf8').toString().trim().split('\r\n')
 
-matrix = [];
-matrix = new Array(1000);
+let rows = 1000, cols = 1000;
 
-for (let i = 0; i < 1000; i++)
-    matrix[i] = new Array(1000);
+let matrix = new Array(rows);
 
-for (let i = 0; i < 1000; i++)
-    for (let j = 0; j < 1000; j++)
+for (let i = 0; i < rows; i++)
+    matrix[i] = new Array(cols);
+
+for (let i = 0; i < rows; i++)
+    for (let j = 0; j < cols; j++)
         matrix[i][j] = '.';
 
 for (let line of input)
@@ -44,9 +45,9 @@ let units = 0;
 
 function GetBottomRow()
 {
-    for (let i = 999; i >= 0; i--)
+    for (let i = rows - 1; i >= 0; i--)
     {
-        for (let j = 0; j < 1000; j++)
+        for (let j = 0; j < cols; j++)
         {
             if (matrix[i][j] == '#')
                 return i;
@@ -56,66 +57,94 @@ function GetBottomRow()
     return 0;
 }
 
+function UpdateSandPos(pos)
+{
+    if (matrix[pos[0] + 1][pos[1]] == '.')
+    {
+        pos[0]++;
+    }
+    else if (matrix[pos[0] + 1][pos[1] - 1] == '.')
+    {
+        pos[0]++;
+        pos[1]--;
+    }
+    else if (matrix[pos[0] + 1][pos[1] + 1] == '.')
+    {
+        pos[0]++;
+        pos[1]++;
+    }
+}
+
 // Part 1
-// let bottomRow = GetBottomRow();
+let matrixClone = structuredClone(matrix);
+let bottomRow = GetBottomRow();
 
-// Part 2
-let bottomRow = GetBottomRow() + 2;
+let finished = false;
 
-let x = true;
-
-while (x)
+while (!finished)
 {
     let sandPos = structuredClone(startPos);
 
     while (true)
     {
-        let sandPosClone = structuredClone(sandPos);
+        let posX = sandPos[0];
 
-        if (matrix[sandPos[0] + 1][sandPos[1]] == '.')
-        {
-            sandPos[0]++;
-        }
-        else if (matrix[sandPos[0] + 1][sandPos[1] - 1] == '.')
-        {
-            sandPos[0]++;
-            sandPos[1]--;
-        }
-        else if (matrix[sandPos[0] + 1][sandPos[1] + 1] == '.')
-        {
-            sandPos[0]++;
-            sandPos[1]++;
-        }
-        else
-        {
-            // Part 2
-            if (sandPos[0] == startPos[0])
-            {
-                units++;
-                x = false;
-                break;
-            }
+        UpdateSandPos(sandPos);
 
-            // Common
+        if (posX == sandPos[0])
+        {
             units++;
             matrix[sandPos[0]][sandPos[1]] = 'o';
             break;
         }
 
-        // Part 2
+        if (sandPos[0] == bottomRow)
+        {
+            finished = true;
+            break;
+        }
+    }
+}
+
+console.log(units);
+
+// Part 2
+matrix = structuredClone(matrixClone);
+bottomRow = GetBottomRow() + 2;
+units = 0;
+
+finished = false;
+
+while (!finished)
+{
+    let sandPos = structuredClone(startPos);
+
+    while (true)
+    {
+        let posX = sandPos[0];
+
+        UpdateSandPos(sandPos);
+
+        if (posX == sandPos[0])
+        {
+            if (sandPos[0] == startPos[0])
+            {
+                units++;
+                finished = true;
+                break;
+            }
+
+            units++;
+            matrix[sandPos[0]][sandPos[1]] = 'o';
+            break;
+        }
+
         if (sandPos[0] == bottomRow - 1)
         {
             units++;
             matrix[sandPos[0]][sandPos[1]] = 'o';
             break;
         }
-
-        // Part 1
-        // if (sandPos[0] == bottomRow)
-        // {
-        //     x = false;
-        //     break;
-        // }
     }
 }
 
