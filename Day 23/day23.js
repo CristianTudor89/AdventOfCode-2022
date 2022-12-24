@@ -202,11 +202,12 @@ while (true)
                 break;
             }
         }
+        
+        if (elfs[i].pos.x != elfs[i].GetProposedPos().x || elfs[i].pos.y != elfs[i].GetProposedPos().y)
+            moved = true;
 
         if (isGoodPos)
         {
-            moved = true;
-
             elfs[i].pos.x = elfs[i].GetProposedPos().x;
             elfs[i].pos.y = elfs[i].GetProposedPos().y;
         }
